@@ -8,14 +8,14 @@ def read_csv(filepath):
         result = f.readlines()
 
     if result:
-        return [x for x in result.strip().split(';')]
+        return [[*x.strip().split(';')] for x in result]
     
     return []
 
 
 def write_to_csv(filepath, data):
     with open(filepath, 'w') as f:
-        f.writelines(data)
+        f.writelines([';'.join(x)+'\n' for x in data])
 
 
 if __name__ == '__main__':
