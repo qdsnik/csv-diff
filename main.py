@@ -1,5 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
+import codecs
+
 
 #
 # Читает 2 файла. Ищет элементы первого столбца из первого файла в элементах из
@@ -49,7 +51,7 @@ def sort_lines_to_lists_by_key_matched(file_a_lines_data: list, file_b_lines_dat
 
 def write_to_csv(filepath, data):
     """Сохраняет строки в файл по указанному пути."""
-    with open(str(filepath), 'w') as f:
+    with codecs.open(str(filepath), 'w', encoding='utf-8') as f:
         f.writelines([f'{CHAR_SEPARATOR.join(x)}\n' for x in data])
 
 
