@@ -45,6 +45,8 @@ def init_params() -> argparse.ArgumentParser:
 
     parser.add_argument ('file1', type=str, help='main handling csv file')
     parser.add_argument ('-i', '--info', action='store_true', default=False, help='show info about main csv file')
+    parser.add_argument ('-rd', '--remove_duplicates', action='store_true', default=False, help='remove row if it has duplicate value in column')
+    parser.add_argument ('-cn', '--column_number', type=int, default=0, help='column number for action')
 
     return parser
 
@@ -83,10 +85,21 @@ if __name__ == '__main__':
     main_file_path_rows = read_lines_from_csv(args.file1)
 
     # Если никаких действий не указано, просто показываем информацию о файле.
-    if not any([]):
+    if not any([args.remove_duplicates]):
         print_info(main_file_path_rows)
 
     if args.info:
         print_info(main_file_path_rows)
 
-    
+    if args.remove_duplicates:
+        handled_values = set()
+        result = []
+        for x in main_file_path_rows:
+            if x[args.column_number] in handled_values:
+                continue
+            else:
+                handled_values.add(x[args.column_number])
+                result.append(x)
+        
+        write_to_csv(Path(SCRIPT_PATH) / 'result.csv', result)
+        print('complited!')
